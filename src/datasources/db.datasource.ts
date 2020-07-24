@@ -10,7 +10,7 @@ const config = {
   user: '',
   password: '',
   database: 'game_statistic_database',
-  useNewUrlParser: true
+  useNewUrlParser: true,
 };
 
 // Observe application's life cycle to disconnect the datasource when

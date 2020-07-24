@@ -8,9 +8,7 @@ export class GameRepository extends DefaultCrudRepository<
   typeof Game.prototype.id,
   GameRelations
 > {
-  constructor(
-    @inject('datasources.db') dataSource: DbDataSource,
-  ) {
+  constructor(@inject('datasources.db') dataSource: DbDataSource) {
     super(Game, dataSource);
   }
 }

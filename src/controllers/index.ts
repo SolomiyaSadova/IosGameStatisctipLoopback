@@ -1,2 +1,2 @@
 export * from './ping.controller';
-export * from './game-controller.controller';
+export * from './game.controller';

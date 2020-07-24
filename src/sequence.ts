@@ -36,6 +36,7 @@ export class MySequence implements SequenceHandler {
       if (finished) return;
       const route = this.findRoute(request);
       const args = await this.parseParams(request, route);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const result = await this.invoke(route, args);
       this.send(response, result);
     } catch (err) {

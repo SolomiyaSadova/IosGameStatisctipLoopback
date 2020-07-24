@@ -4,14 +4,17 @@ import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
+import {createBindingFromClass} from '@loopback/context';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
-import {GAME_FEED_SERVICE, SCHEDULED_DATABASE_REFRESHING} from "./bindings";
-import {GamesFeedApi} from "./service/GameFeedApi";
+import {GAME_FEED_SERVICE} from './bindings';
+import {GamesFeedApi} from './service/GameFeedApi';
 import {CronComponent} from '@loopback/cron';
+import {ScheduledGameChartsConsumer} from './service/ScheduledGameChartsConsumer';
+
 export {ApplicationConfig};
 
 export class DemoApplication extends BootMixin(
@@ -26,6 +29,8 @@ export class DemoApplication extends BootMixin(
     this.component(CronComponent);
 
     this.setupServices();
+
+    this.setupCronJob();
 
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
@@ -46,11 +51,15 @@ export class DemoApplication extends BootMixin(
         nested: true,
       },
     };
-
   }
 
   setupServices() {
-    this.bind(GAME_FEED_SERVICE).toClass(GamesFeedApi)
-   // this.bind(SCHEDULED_DATABASE_REFRESHING).toClass(ScheduledGameChartsConsumer)
+    this.bind(GAME_FEED_SERVICE).toClass(GamesFeedApi);
+    // this.bind(SCHEDULED_DATABASE_REFRESHING).toClass(ScheduledGameChartsConsumer)
+  }
+
+  setupCronJob() {
+    const jobBinding = createBindingFromClass(ScheduledGameChartsConsumer);
+    this.add(jobBinding);
   }
 }

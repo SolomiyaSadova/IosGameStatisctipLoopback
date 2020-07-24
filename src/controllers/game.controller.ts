@@ -18,20 +18,18 @@ import {
 } from '@loopback/rest';
 import {Game} from '../models';
 import {GameRepository} from '../repositories';
-import {GamesFeedApi} from "../service/GameFeedApi";
+import {GamesFeedApi} from '../service/GameFeedApi';
 
-import {GAME_FEED_SERVICE} from "../bindings";
-import {inject} from "@loopback/context";
+import {GAME_FEED_SERVICE} from '../bindings';
+import {inject} from '@loopback/context';
 
-export class GameControllerController {
+export class GameController {
   constructor(
     @repository(GameRepository)
-    public gameRepository : GameRepository,
+    public gameRepository: GameRepository,
     @inject(GAME_FEED_SERVICE)
-    public gamesFeedApi: GamesFeedApi
-
+    public gamesFeedApi: GamesFeedApi,
   ) {}
-
 
   @post('/ios-charts-game', {
     responses: {
@@ -65,9 +63,7 @@ export class GameControllerController {
       },
     },
   })
-  async count(
-    @param.where(Game) where?: Where<Game>,
-  ): Promise<Count> {
+  async count(@param.where(Game) where?: Where<Game>): Promise<Count> {
     return this.gameRepository.count(where);
   }
 
@@ -86,10 +82,8 @@ export class GameControllerController {
       },
     },
   })
-  async find(
-    @param.filter(Game) filter?: Filter<Game>,
-  ): Promise<Game[]> {
-    await this.gamesFeedApi.updateGamesFromUrl("");
+  async find(@param.filter(Game) filter?: Filter<Game>): Promise<Game[]> {
+    await this.gamesFeedApi.updateGamesFromUrl('');
     return this.gameRepository.find(filter);
   }
 
@@ -129,7 +123,7 @@ export class GameControllerController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Game, {exclude: 'where'}) filter?: FilterExcludingWhere<Game>
+    @param.filter(Game, {exclude: 'where'}) filter?: FilterExcludingWhere<Game>,
   ): Promise<Game> {
     return this.gameRepository.findById(id, filter);
   }
@@ -179,5 +173,4 @@ export class GameControllerController {
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.gameRepository.deleteById(id);
   }
-
 }

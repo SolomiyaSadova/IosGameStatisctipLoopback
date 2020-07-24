@@ -5,7 +5,7 @@ const config = {
   name: 'restds',
   connector: 'rest',
   baseURL: '',
-  crud: false
+  crud: false,
 };
 
 // Observe application's life cycle to disconnect the datasource when
