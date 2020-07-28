@@ -1,7 +1,7 @@
-import axios, {AxiosInstance} from 'axios';
-import {Game, GameType} from '../models';
-import {GameRepository} from '../repositories';
-import {repository} from '@loopback/repository';
+import axios, { AxiosInstance } from 'axios';
+import { Game, GameType } from '../models';
+import { GameRepository } from '../repositories';
+import { repository } from '@loopback/repository';
 
 interface GameFeed {
   results: GameResult[];
@@ -19,7 +19,7 @@ export interface GameResult {
 }
 
 export class GamesFeedApi {
-  protected instance: AxiosInstance = axios.create({baseURL: ''});
+  protected instance: AxiosInstance = axios.create({ baseURL: '' });
 
   constructor(
     @repository(GameRepository)
@@ -31,15 +31,15 @@ export class GamesFeedApi {
       'https://rss.itunes.apple.com/api/v1/us/ios-apps/top-free/games/100/explicit.json',
     );
 
-    const {status, data} = response;
+    const { status, data } = response;
     if (status === 200 && data && data.feed) {
       console.log(data.feed.results);
       const dtoGames: Array<GameResult> = data.feed.results;
 
-      const games: Array<Game> = dtoGames.map(dtoGame =>
+      const games: Array<Game> = dtoGames.map((dtoGame) =>
         Game.build(dtoGame, GameType.UNKNOWN),
       );
-      // games.forEach(game => this.gameRepository.create(game))
+    games.forEach(game => console.log(game.gameType));
       await this.gameRepository.createAll(games);
     } else {
       console.log(`No data returned. Response status - ${status}`);

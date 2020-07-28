@@ -1,4 +1,4 @@
-import {CronJob, cronJob} from '@loopback/cron';
+import { CronJob, cronJob } from '@loopback/cron';
 
 @cronJob()
 export class ScheduledGameChartsConsumer extends CronJob {
@@ -8,9 +8,9 @@ export class ScheduledGameChartsConsumer extends CronJob {
     super({
       name: 'job-B',
       onTick: () => {
-        console.log(now);
+        //console.log(now);
       },
-      cronTime: '*/10 * * * * *',
+      cronTime: '* */1 * * *',
       start: true,
     });
   }
