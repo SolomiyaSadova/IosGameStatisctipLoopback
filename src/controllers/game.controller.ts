@@ -1,176 +1,128 @@
-import {
-  Count,
-  CountSchema,
-  Filter,
-  FilterExcludingWhere,
-  repository,
-  Where,
-} from '@loopback/repository';
-import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-} from '@loopback/rest';
-import {Game} from '../models';
-import {GameRepository} from '../repositories';
-import {GamesFeedApi} from '../service/GameFeedApi';
+import { CountSchema, Where } from '@loopback/repository';
+import { get, param } from '@loopback/rest';
+import { Game, GameType } from '../models';
 
-import {GAME_FEED_SERVICE} from '../bindings';
-import {inject} from '@loopback/context';
+import { FETCHING_GAMES_SERVICE, GAME_SERVICE_API } from '../bindings';
+import { inject } from '@loopback/context';
+import { FetchingGameService } from '../service/fetching-game-service';
+import { GameServiceClientApi } from '../service/game-service-client-api';
+
+const VERSION_1 = '/v1';
+const VERSION_2 = '/v2';
+const GAME_PATH = '/ios/charts/game';
+const GAME_PATH_V1 = `${VERSION_1}/${GAME_PATH}`;
+const GAME_PATH_V2 = `${VERSION_2}/${GAME_PATH}`;
 
 export class GameController {
   constructor(
-    @repository(GameRepository)
-    public gameRepository: GameRepository,
-    @inject(GAME_FEED_SERVICE)
-    public gamesFeedApi: GamesFeedApi,
-  ) {}
+    @inject(FETCHING_GAMES_SERVICE)
+    public fetchingGameService: FetchingGameService,
+    @inject(GAME_SERVICE_API)
+    public gameServiceApi: GameServiceClientApi,
+  ) {
+  }
 
-  @post('/ios-charts-game', {
+  @get(GAME_PATH_V2, {
     responses: {
       '200': {
-        description: 'Game model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Game)}},
+        description: 'Get all games',
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
-  async create(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Game, {
-            title: 'NewGame',
-            exclude: ['id'],
-          }),
-        },
-      },
-    })
-    game: Omit<Game, 'id'>,
-  ): Promise<Game> {
-    return this.gameRepository.create(game);
+  async getAllGamesFromKotlinService(@param.where(Game) where?: Where<Game>,
+                                     @param.query.number('limit') limit = 100) {
+    return this.gameServiceApi.getAllGames(limit);
   }
 
-  @get('/ios-charts-game/count', {
+  @get(`${GAME_PATH_V2}/paid`, {
     responses: {
       '200': {
-        description: 'Game model count',
-        content: {'application/json': {schema: CountSchema}},
+        description: 'Get all paid games',
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
-  async count(@param.where(Game) where?: Where<Game>): Promise<Count> {
-    return this.gameRepository.count(where);
+  async getPaidGamesFromKotlinService(@param.where(Game) where?: Where<Game>,
+                                      @param.query.number('limit') limit = 100) {
+    return this.gameServiceApi.getGamesByType('paid', limit);
   }
 
-  @get('/ios-charts-game', {
+  @get(`${GAME_PATH_V2}/free`, {
     responses: {
       '200': {
-        description: 'Array of Game model instances',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'array',
-              items: getModelSchemaRef(Game, {includeRelations: true}),
-            },
-          },
-        },
+        description: 'Get all free games',
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
-  async find(@param.filter(Game) filter?: Filter<Game>): Promise<Game[]> {
-    await this.gamesFeedApi.updateGamesFromUrl('');
-    return this.gameRepository.find(filter);
+  async getFreeGamesFromKotlinService(@param.where(Game) where?: Where<Game>,
+                                      @param.query.number('limit') limit = 100) {
+    return this.gameServiceApi.getGamesByType('free', limit);
   }
 
-  @patch('/ios-charts-game', {
+  @get(`${GAME_PATH_V2}/grossing`, {
     responses: {
       '200': {
-        description: 'Game PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        description: 'Get all grossing games',
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
-  async updateAll(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Game, {partial: true}),
-        },
-      },
-    })
-    game: Game,
-    @param.where(Game) where?: Where<Game>,
-  ): Promise<Count> {
-    return this.gameRepository.updateAll(game, where);
+  async getGrossingGamesFromKotlinService(@param.where(Game) where?: Where<Game>,
+                                          @param.query.number('limit') limit = 100) {
+    return this.gameServiceApi.getGamesByType('grossing', limit);
   }
 
-  @get('/ios-charts-game/{id}', {
+
+  @get(GAME_PATH_V1, {
     responses: {
       '200': {
-        description: 'Game model instance',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Game, {includeRelations: true}),
-          },
-        },
+        description: 'Get game all games',
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
-  async findById(
-    @param.path.string('id') id: string,
-    @param.filter(Game, {exclude: 'where'}) filter?: FilterExcludingWhere<Game>,
-  ): Promise<Game> {
-    return this.gameRepository.findById(id, filter);
+  async getAllGames(@param.where(Game) where?: Where<Game>): Promise<Array<Game>> {
+    return this.fetchingGameService.getAllGames();
   }
 
-  @patch('/ios-charts-game/{id}', {
+  @get(`${GAME_PATH_V1}/free`, {
     responses: {
-      '204': {
-        description: 'Game PATCH success',
+      '200': {
+        description: 'Get game of type FREE',
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
-  async updateById(
-    @param.path.string('id') id: string,
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Game, {partial: true}),
-        },
-      },
-    })
-    game: Game,
-  ): Promise<void> {
-    await this.gameRepository.updateById(id, game);
+  async getFreeGames(@param.where(Game) where?: Where<Game>,
+                     @param.query.number('limit') limit = 100): Promise<Array<Game>> {
+    return this.fetchingGameService.getGamesByType(GameType.FREE, limit);
   }
 
-  @put('/ios-charts-game/{id}', {
+  @get(`${GAME_PATH_V1}/paid`, {
     responses: {
-      '204': {
-        description: 'Game PUT success',
+      '200': {
+        description: 'Get game of type PAID',
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
-  async replaceById(
-    @param.path.string('id') id: string,
-    @requestBody() game: Game,
-  ): Promise<void> {
-    await this.gameRepository.replaceById(id, game);
+  async getPaidGames(@param.where(Game) where?: Where<Game>,
+                     @param.query.number('limit') limit = 100): Promise<Array<Game>> {
+    return this.fetchingGameService.getGamesByType(GameType.PAID, limit);
   }
 
-  @del('/ios-charts-game/{id}', {
+  @get(`${GAME_PATH_V1}/grossing`, {
     responses: {
-      '204': {
-        description: 'Game DELETE success',
+      '200': {
+        description: 'Get game of type GROSSING',
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.gameRepository.deleteById(id);
+  async getGrossingGames(@param.where(Game) where?: Where<Game>,
+                         @param.query.number('limit') limit = 100): Promise<Array<Game>> {
+    return this.fetchingGameService.getGamesByType(GameType.GROSSING, limit);
   }
 }

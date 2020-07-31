@@ -1,11 +1,11 @@
-import {Entity, model, property} from '@loopback/repository';
-import {GameResult} from '../service/GameFeedApi';
+import { Entity, model, property } from '@loopback/repository';
+import { GameResult } from '../service/types';
 
 export enum GameType {
-  FREE,
-  PAID,
-  GROSSING,
-  UNKNOWN,
+  FREE ='FREE',
+  PAID = 'PAID',
+  GROSSING = 'GROSSING',
+  UNKNOWN = 'UNKNOWN',
 }
 
 @model()
@@ -21,26 +21,32 @@ export class Game extends Entity {
     type: 'string',
     required: true,
   })
-  name: string;
+  name: String;
 
   @property({
     type: 'string',
     required: true,
   })
-  artistName: string;
+  artistName: String;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  url: String;
 
   @property({
     type: 'date',
     required: true,
   })
-  releaseDate: string;
+  releaseDate: String;
 
   @property({
     type: 'date',
     required: true,
     default: '$now',
   })
-  createdDate: string;
+  createdDate: String;
 
   @property({
     type: 'object',
@@ -56,7 +62,10 @@ export class Game extends Entity {
 
   static build(gameResult: GameResult, gameType: GameType): Game {
     const game = new Game();
-    Object.assign(game, gameResult);
+    game.name = gameResult.name;
+    game.releaseDate = gameResult.releaseDate;
+    game.artistName = gameResult.artistName;
+    game.url = gameResult.url;
     game.gameType = gameType;
 
     return game;
