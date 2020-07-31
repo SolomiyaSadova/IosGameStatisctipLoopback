@@ -1,5 +1,5 @@
 import { Entity, model, property } from '@loopback/repository';
-import { GameResult } from '../service/game-feed-api.service';
+import { GameResult } from '../service/types';
 
 export enum GameType {
   FREE ='FREE',
