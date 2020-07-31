@@ -1,0 +1,7 @@
+{
+    "MONGO_URL": process.env.MONGO_URL,
+    "FETCH_URLS": {
+       "FREE": "http://ios.itunnes.......",
+       "PAID": "http://ios.itunnes.......",
+    }
+}
