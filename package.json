@@ -57,6 +57,7 @@
     "axios": "^0.19.2",
     "cron-decorators": "^0.1.2",
     "fluent-logger": "^3.4.1",
+    "loopback-connector-kv-redis": "^4.0.0",
     "loopback-connector-mongodb": "^5.3.0",
     "loopback-connector-rest": "^3.7.0",
     "node-fetch": "^2.6.0",
@@ -85,11 +86,5 @@
     "node-cron": "^2.0.3",
     "source-map-support": "^0.5.19",
     "winston": "^3.3.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run test"
-    }
   }
 }

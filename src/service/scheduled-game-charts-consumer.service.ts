@@ -18,7 +18,6 @@ export class ScheduledGameChartsConsumerService extends CronJob {
       config.FETCH_URLS.PAID];
 
     const date = new Date().toLocaleString();
-
     super(
       {
         name: 'job-B',
