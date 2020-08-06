@@ -1,0 +1,17 @@
+version: '3'
+services:
+  mongo:
+    image: 'bitnami/mongodb:latest'
+    ports:
+      - '27017:27017'
+  redis:
+    image: 'bitnami/redis:latest'
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  rabbitmq:
+    image: 'rabbitmq:3.7.16-management'
+    ports:
+      - '5672:5672'
+      - '15672:15672'

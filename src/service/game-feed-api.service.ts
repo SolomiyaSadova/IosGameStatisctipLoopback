@@ -26,7 +26,7 @@ export class GamesFeedApi {
           return Game.build(dtoGame, gameType);
         },
       );
-
+      await this.gameRepository.deleteAll();
       const savedGames = await this.gameRepository.createAll(games);
       logger.info(`Successfully saved games. Size - ${savedGames.length}.`);
     } else {

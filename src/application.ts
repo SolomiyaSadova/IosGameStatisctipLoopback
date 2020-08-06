@@ -10,7 +10,7 @@ import { RestApplication } from '@loopback/rest';
 import { ServiceMixin } from '@loopback/service-proxy';
 import path from 'path';
 import { MySequence } from './sequence';
-import { FETCHING_GAMES_SERVICE, GAME_FEED_SERVICE, GAME_SERVICE_API, LOGGER_BINDING } from './bindings';
+import { CACHE_SERVICE, FETCHING_GAMES_SERVICE, GAME_FEED_SERVICE, GAME_SERVICE_API, LOGGER_BINDING } from './bindings';
 import { GamesFeedApi } from './service/game-feed-api.service';
 import { CronComponent } from '@loopback/cron';
 import { ScheduledGameChartsConsumerService } from './service/scheduled-game-charts-consumer.service';
@@ -18,6 +18,8 @@ import { logger } from './logger-config';
 import * as config from './config/config.json';
 import { FetchingGameService } from './service/fetching-game-service';
 import { GameServiceClientApi } from './service/game-service-client-api';
+import { CacheObjectService } from './service/cache-object.service';
+import { RedisDataSource } from './datasources';
 export { ApplicationConfig };
 
 export class DemoApplication extends BootMixin(
@@ -62,6 +64,7 @@ export class DemoApplication extends BootMixin(
     this.bind(LOGGER_BINDING).to(logger);
     this.bind(FETCHING_GAMES_SERVICE).toClass(FetchingGameService);
     this.bind(GAME_SERVICE_API).toClass(GameServiceClientApi);
+    this.bind(CACHE_SERVICE).toClass(CacheObjectService);
   }
 
   setupCronJob() {
