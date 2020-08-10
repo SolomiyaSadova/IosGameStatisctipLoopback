@@ -1,6 +1,6 @@
 import { Entity, model, property } from '@loopback/repository';
 import { GameResult } from '../service/types';
-
+import { CacheObject } from './cache-object.model';
 export enum GameType {
   FREE ='FREE',
   PAID = 'PAID',
@@ -69,6 +69,10 @@ export class Game extends Entity {
     game.gameType = gameType;
 
     return game;
+  }
+
+  toCachedObject(): CacheObject {
+    return CacheObject.fromData(this);
   }
 }
 

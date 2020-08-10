@@ -4,5 +4,7 @@
          "FREE": "https://rss.itunes.apple.com/api/v1/us/ios-apps/top-free/games/100/explicit.json",
          "PAID": "https://rss.itunes.apple.com/api/v1/us/ios-apps/top-paid/games/100/explicit.json"
     },
-    "GAME_API_URL": "http://localhost:9093/v1/ios/charts/games"
+    "GAME_API_URL": "http://localhost:9093/v1/ios/charts/games",
+    "GAME_CACHE_KEY": "games",
+    "GAME_CACHE_TTL": "900000"
 }

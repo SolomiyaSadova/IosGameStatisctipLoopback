@@ -8,11 +8,6 @@ export class GameServiceClientApi extends BaseClientApi {
     super(config.GAME_API_URL);
   }
 
-  async getAllGames(limit: number): Promise<Game[]> {
-    const requestString = `${config.GAME_API_URL}/?limit=${limit}`;
-    return this.fetchArray<Game>(requestString);
-  }
-
   async getGamesByType(gameType: string, limit: number): Promise<Game[]> {
     const requestString = `${config.GAME_API_URL}/${gameType}?limit=${limit}`;
     return this.fetchArray<Game>(requestString);
