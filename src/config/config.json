@@ -6,5 +6,5 @@
     },
     "GAME_API_URL": "http://localhost:9093/v1/ios/charts/games",
     "GAME_CACHE_KEY": "games",
-    "GAME_CACHE_TTL": "900000"
+    "GAME_CACHE_TTL": "3600000"
 }

@@ -19,7 +19,7 @@ export class ScheduledGameChartsConsumerService extends CronJob {
           logger.info('Updating games in cache...');
           gamesFacade
             .cacheAllGames()
-            .catch(ex => console.log(`Can not save games in cache ${ex}`));
+            .catch(ex => logger.info(`Can not save games in cache ${ex}`));
         },
         cronTime: '0 * * * *',
         start: true,
