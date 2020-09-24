@@ -9,6 +9,8 @@ module.exports = {
     '@typescript-eslint/unbound-method': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+    'typescript-eslint/return-await': 'off',
     'comma-dangle': ['error', 'always-multiline'],
     quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'always'],

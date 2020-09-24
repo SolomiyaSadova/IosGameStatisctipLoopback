@@ -1,11 +1,11 @@
 import { CountSchema, Where } from '@loopback/repository';
 import { get, param } from '@loopback/rest';
-import { Game, GameType } from '../models';
+import { Game, GameType } from '../../models';
 
-import { FETCHING_GAMES_SERVICE, GAME_SERVICE_API } from '../bindings';
+import { FETCHING_GAMES_SERVICE, GAME_SERVICE_API } from '../../bindings';
 import { inject } from '@loopback/context';
-import { FetchingGameService } from '../service/fetching-game-service';
-import { GameServiceClientApi } from '../service/game-service-client-api';
+import { FetchingGameService } from '../../service/fetching-game-service';
+import { GameServiceClientApi } from '../../service/game-service-client-api';
 
 const VERSION_1 = '/v1';
 const VERSION_2 = '/v2';

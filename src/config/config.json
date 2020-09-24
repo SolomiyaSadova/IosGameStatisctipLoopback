@@ -4,5 +4,25 @@
           "FREE": "https://rss.itunes.apple.com/api/v1/us/ios-apps/top-free/games/100/explicit.json",
           "PAID": "https://rss.itunes.apple.com/api/v1/us/ios-apps/top-paid/games/100/explicit.json"
     },
-    "GAME_API_URL": "http://localhost:9093/v1/ios/charts/games"
+    "GAME_API_URL": "http://localhost:9093/v1/ios/charts/games",
+    "AMQP": "amqp://localhost:5672",
+    "QUEUES": {
+        "ALL_GAMES": {
+            "ALL_GAME_QUEUE_REQUEST": "all-games-request-queue",
+            "ALL_GAME_QUEUE_RESPONSE": "all-games-response-queue",
+        },
+        "PAID_GAMES": {
+            "PAID_GAME_QUEUE_REQUEST": "paid-games-request-queue",
+            "PAID_GAME_QUEUE_RESPONSE": "paid-games-response-queue",
+        },
+        "FREE_GAMES": {
+            "FREE_GAME_QUEUE_REQUEST": "free-games-request-queue",
+            "FREE_GAME_QUEUE_RESPONSE": "free-games-response-queue",
+        },
+        "GROSSING_GAMES": {
+            "GROSSING_GAME_QUEUE_REQUEST": "grossing-games-request-queue",
+            "GROSSING_GAME_QUEUE_RESPONSE": "grossing-games-response-queue",
+        },
+    },
+    "RESTART_CONNECTION_TIMEOUT": 5000
 }
