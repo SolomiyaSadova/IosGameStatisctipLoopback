@@ -34,10 +34,11 @@ export class MessageBrokerService {
       return this.connection;
     } catch (e) {
       logger.error(`Error connecting to message broker - ${e.message}`);
-      //TODO add setTimeout
 
-      // eslint-disable-next-line
-      return this.connect();
+      await this.delay(RESTART_CONNECTION_TIMEOUT);
+
+      // eslint-disable-next-line no-return-await
+      return await this.connect();
     }
   }
 
@@ -95,14 +96,6 @@ export class MessageBrokerService {
     if (error.message !== 'Connection closing') {
       logger.info('[AMQP] conn error ', error.message);
     }
-    //on connectionClose() will be executed next
-  }
-
-
-  // eslint-disable-next-line
-  onChannelError(error: any): void {
-// add log message
-    //
   }
 
   private attachConnectionEventHandlers(): void {
@@ -115,10 +108,9 @@ export class MessageBrokerService {
     this.eventBusService.emit(ApplicationEvent.MESSAGE_BROKER_RESTARTED);
   }
 
+  private async delay(ms: number) {
+    await new Promise(resolve => setTimeout(()=>resolve(), ms));
+  }
+
 }
 
-
-// 1. Check if connection is closed
-// 2. If yes - create new connection and reassign this.connection
-// 3. Reboot consumers - call bootConsumers method (inject games-queue-consumer)
-// 4.

@@ -44,6 +44,7 @@
     "!*/__tests__"
   ],
   "dependencies": {
+    "@angular/core": "^5.2.3",
     "@loopback/boot": "^2.3.5",
     "@loopback/core": "^2.9.1",
     "@loopback/cron": "^0.2.10",
@@ -88,12 +89,4 @@
     "source-map-support": "^0.5.19",
     "winston": "^3.3.3"
   }
-
-
-//  "husky": {
-//    "hooks": {
-//      "pre-commit": "npm run lint",
-//      "pre-push": "npm run test"
-//    }
-//  }
 }

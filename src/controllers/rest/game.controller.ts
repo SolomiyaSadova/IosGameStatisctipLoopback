@@ -1,11 +1,12 @@
 import { CountSchema, Where } from '@loopback/repository';
-import { get, param } from '@loopback/rest';
+import { get, param, RestBindings } from '@loopback/rest';
 import { Game, GameType } from '../../models';
 
 import { FETCHING_GAMES_SERVICE, GAME_SERVICE_API } from '../../bindings';
 import { inject } from '@loopback/context';
 import { FetchingGameService } from '../../service/fetching-game-service';
 import { GameServiceClientApi } from '../../service/game-service-client-api';
+import { Response } from 'express';
 
 const VERSION_1 = '/v1';
 const VERSION_2 = '/v2';
@@ -21,6 +22,7 @@ export class GameController {
     public gameServiceApi: GameServiceClientApi,
   ) {
   }
+
 
   @get(GAME_PATH_V2, {
     responses: {

@@ -29,7 +29,7 @@ export class GamesQueueConsumer {
     await this.subscribeToQueue(config.QUEUES.FREE_GAMES.FREE_GAME_QUEUE_RESPONSE, queueOptions, consumeOptions);
     await this.subscribeToQueue(config.QUEUES.PAID_GAMES.PAID_GAME_QUEUE_RESPONSE, queueOptions, consumeOptions);
     await this.subscribeToQueue(config.QUEUES.GROSSING_GAMES.GROSSING_GAME_QUEUE_RESPONSE,
-      queueOptions, consumeOptions);
+        queueOptions, consumeOptions);
 
     this.messageBrokerService.onRestart(() => this.subscribe.call(this));
   }
