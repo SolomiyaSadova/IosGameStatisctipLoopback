@@ -55,7 +55,7 @@
     "@loopback/service-proxy": "^2.3.4",
     "amqplib": "^0.6.0",
     "app-root-path": "^3.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cron-decorators": "^0.1.2",
     "fluent-logger": "^3.4.1",
     "loopback-connector-mongodb": "^5.3.0",
