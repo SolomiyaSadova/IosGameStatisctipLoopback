@@ -83,7 +83,7 @@
     "cron": "^1.8.2",
     "eslint": "^7.3.1",
     "husky": "^4.2.5",
-    "lint": "^0.7.0",
+    "lint": "^0.8.8",
     "node-cron": "^2.0.3",
     "source-map-support": "^0.5.19",
     "winston": "^3.3.3"
